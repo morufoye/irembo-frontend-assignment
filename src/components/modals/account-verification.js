@@ -8,7 +8,7 @@ import Card from "../UI/Card";
 import loadingGif from '../UI/loadingGif.gif';
 
 const AccountVerification = (props) => {
-    const {userInfo} = useContext(AuthContext)
+    const {userInfo, setVerificationStatus} = useContext(AuthContext)
     const initData = {userId:userInfo.userId, idType:"", idNumber:""}
     const[idDetails, setIdDetails] = useState(initData);
     const idTypes = ["NATIONAL_IDENTITY_CARD", "INTERNATIONAL_PASSPORT"];
@@ -21,6 +21,7 @@ const AccountVerification = (props) => {
     const  submitChanges = (event) => {
         event.preventDefault();
         submitUpdate();
+        setVerificationStatus("PENDING_VERIFICATION");
         props.closeVerificationModal();
     }
 
@@ -41,8 +42,9 @@ const AccountVerification = (props) => {
                      }
 
      useEffect(() => {
-       axios.get("http://localhost:9090/user/verification"+userInfo.userId).then((response) => response.data
+       axios.get("http://localhost:9090/user/verification/"+userInfo.userId).then((response) => response.data
                          ).then((data) => {
+                         console.log(data)
                          setIdDetails(data)
                         }).catch((error) => console.log(error.message));
              }, []);
@@ -132,7 +134,7 @@ const AccountVerification = (props) => {
 
                     <label className={labelClass}>Identity Type</label>
                                         <select className="form-select block w-full my-3 border border-gray-400 p-2" name="idType" onChange={(e)=>handleChange(e)}>
-                                           <option value={idDetails.idType}>{idDetails.idTyper}</option>
+                                           <option value={idDetails.idType}>{idDetails.idType}</option>
                                            {idTypes.map((item)=><option value={item}>{item}</option>)}
                                         </select>
 

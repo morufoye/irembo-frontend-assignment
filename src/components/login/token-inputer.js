@@ -1,25 +1,30 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useContext, useState} from "react";
 import axios from "axios";
+import AuthContext from "../context/auth-context";
 import {useNavigate} from "react-router-dom";
 
 const TokenInputer = (props) => {
 
-    const[userInput, setUserInput] = useState({phoneNumber:props.phoneNumber, email:props.email, phoneOtp:"", emailOtp:""});
+    const[userInput, setUserInput] = useState({userId:props.username, token:""});
+    const {userInfo, setUserInfo, setVerificationStatus } = useContext(AuthContext)
     const labelClass= "block text-gray-700 text-sm font-bold mb-1 mt-2"
     const inputClass= "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-    const navigate = useNavigate();
+
+
     const submitToken = () => {
-      //  const url =  `http://localhost:8080/api/verifyOTP/${props.type}`;
-      //  axios.post(url, userInput).then((response) => response.data
-      //  ).then((data) => {
-      //       props.handleTokenResponse("success")
-      //  }).catch((error) => console.log(error.message));
-        //navigate("/registration-success")
-        props.handleTokenResponse("success")
+        const url =  `http://localhost:9090/login/two`;
+        axios.post(url, userInput).then((response) => response.data
+        ).then((data) => {
+        console.log(data)
+        setUserInfo(data)
+        setVerificationStatus(userInfo.status)
+             props.handleTokenResponse("success")
+        }).catch((error) => console.log(error.message));
     }
+
     let tokenData =
         [
-            {name: "otp", label: "Token", placeholder: "Enter the token sent to you", id:"otp", type:"password", value: userInput.otp, tag:"input"},
+            {name: "token", label: "Token", placeholder: "Enter the token sent to your email", id:"tokem", type:"text", value: userInput.token, tag:"input"},
         ]
 
 

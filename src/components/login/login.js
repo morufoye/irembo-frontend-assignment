@@ -5,7 +5,7 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import AuthContext from "../context/auth-context";
 import {useForm, Controller} from 'react-hook-form';
 import axios from "axios";
-import TokenInputer from "../registration/token-inputer";
+import TokenInputer from "./token-inputer";
 
 
 export default function Login() {

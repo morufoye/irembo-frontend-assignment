@@ -4,7 +4,7 @@ import TokenInputer from "./token-inputer";
 import {useNavigate} from "react-router-dom";
 
 const SignUp = () => {
-    const initData = { username:"", firstname:"", lastname:"", password:"", }
+    const initData = { userId:"", firstname:"", lastname:"", password:"", }
     const[userInput, setUserInput] = useState(initData);
 
     const [password, setPassword] = useState({password:"", confirmPassword:""})
@@ -16,7 +16,7 @@ const SignUp = () => {
 
     const formData =
         [
-            {name: "username", label: "Email", placeholder: "Enter email", type:"email", id:"email", value: userInput.email, tag:"input"},
+            {name: "userId", label: "Email", placeholder: "Enter email", type:"email", id:"email", value: userInput.email, tag:"input"},
             {name: "firstname", label: "Firstname", placeholder: "Firstname", type:"text", id:"firstname", value: userInput.firstname, tag:"input"},
             {name: "lastname", label: "Lastname", placeholder: "lastname", type:"text", id:"lastname", value: userInput.lastname, tag:"input"},
             {name: "password", label: "Password", placeholder: "Enter password", type:"password", id:"password", value: userInput.password, tag:"input"},
@@ -50,7 +50,7 @@ const SignUp = () => {
     }
 
     const submitInfo = () => {
-            const url =  "http://localhost:9090/user/signUp";
+            const url =  "http://localhost:9090/user/signup";
             axios.post(url, userInput).then((response) => response.data
             ).then((data) => {
             sendLoginLink();
@@ -58,7 +58,7 @@ const SignUp = () => {
         }
 
          const sendLoginLink = () => {
-                    const url =  "http://localhost:9090/message/login-link"+ userInput.userId;
+                    const url =  "http://localhost:9090/message/login-link/"+ userInput.userId;
                     axios.get(url).then((response) => response.data
                     ).then((data) => {
                          navigate("/login")

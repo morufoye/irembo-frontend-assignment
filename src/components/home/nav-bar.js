@@ -65,12 +65,19 @@ export default function NavBar(){
     }
 
       useEffect(() => {
-            if (verificationStatus === "UNVERIFIED") {
+            console.log(" verification status " + verificationStatus)
+            if (verificationStatus == "UNVERIFIED") {
             setUnverified(true);
-            } else if (verificationStatus === "PENDING VERIFICATION") {
+            setPending(false);
+            setVerified(false);
+            } else if (verificationStatus == "PENDING_VERIFICATION") {
             setPending(true);
-            }else {
+            setVerified(false);
+            setUnverified(false);
+            }else if (verificationStatus == "VERIFIED") {
             setVerified(true);
+            setUnverified(false);
+            setPending(false);
             }
          }, []);
 

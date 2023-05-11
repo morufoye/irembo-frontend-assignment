@@ -241,6 +241,7 @@ export const AuthContextProvider = (props) => {
         userInfo,
         countries,
         verificationStatus,
+        setVerificationStatus,
         showTokenInputer,
         setShowTokenInputer
     }

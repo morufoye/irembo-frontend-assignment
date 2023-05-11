@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 
 const TokenInputer = (props) => {
 
-    const[userInput, setUserInput] = useState({userId:props.username, token:""});
+    const[userInput, setUserInput, ] = useState({userId:props.username, token:""});
     const {userInfo, setUserInfo} = useContext(AuthContext)
     const labelClass= "block text-gray-700 text-sm font-bold mb-1 mt-2"
     const inputClass= "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
