@@ -7,7 +7,7 @@ const SignUp = () => {
     const initData = { userId:"", firstname:"", lastname:"", password:"", }
     const[userInput, setUserInput] = useState(initData);
 
-    const base-url = "http://localhost:9090/user/"
+    const baseUrl = "http://localhost:9090/";
 
     const [password, setPassword] = useState({password:"", confirmPassword:""})
 
@@ -41,46 +41,48 @@ const SignUp = () => {
     }
 
     const handleSubmit = () => {
-        const url =  base-url + "validate-password";
+        let url =  baseUrl + "user/validate-password";
         axios.post(url, password).then((response) => response.data
         ).then((data) => {
             console.log(JSON.stringify(data));
             if (data === "valid") {
-                submitInfo();
+
+              url =  baseUrl +"user/username-available/"+ userInput.userId;
+                             axios.get(url).then((response) => response.data
+                                                ).then((data) => {
+                                                if (data) {
+                                                alert("username is not available")
+                                                 } else {
+                                                 submitInfo();
+                                                 }
+                                            }).catch((error) => console.log(error.message));
             }else {
               alert(data)
             }
-
         }).catch((error) => console.log(error.message));
 
     }
 
     const submitInfo = () => {
-    let isUsernameAvailable = usernameAvailability(userInput.userId);
-    if (isUsernameAvailable) {
-     const url =  base-url +"signup";
+     const url =  baseUrl +"user/signup";
                 axios.post(url, userInput).then((response) => response.data
                 ).then((data) => {
                 sendLoginLink();
                 }).catch((error) => console.log(error.message));
-          }
      }
 
     const usernameAvailability = (userId) => {
-                let result = false;
-                const url =  base-url +"username-available/"+ userId;
+                const url =  baseUrl +"user/username-available/"+ userId;
                  axios.get(url).then((response) => response.data
                                     ).then((data) => {
                                     if (data) {
                                     alert("username is not available")
                                      }
-                                    result = data;
                                 }).catch((error) => console.log(error.message));
-                                return result;
          }
 
     const sendLoginLink = () => {
-                  const url =  "http://localhost:9090/message/login-link/"+ userInput.userId;
+                  const url =  baseUrl +"message/login-link/"+ userInput.userId;
                     axios.get(url).then((response) => response.data
                     ).then((data) => {
                          navigate("/login")
@@ -116,7 +118,7 @@ const SignUp = () => {
                             </label>
                             <data.tag
                                 name={data.name}
-                                onBlur={(e) => handleChange(e)}
+                                onChange={(e) => handleChange(e)}
                                 className={inputClass}
                                 id={data.id}
                                 type={data.type}
